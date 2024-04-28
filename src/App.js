@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react"; // Importe o React corretamente
+import { Header } from './componentes/Header';
+import { Modal } from "./componentes/Modal";
+import { Main } from "./componentes/Main";
+
 
 function App() {
+  const [abrirCarrinho, setAbrirCarrinho] = useState(false);
+
+  function abreModal() {
+    setAbrirCarrinho(true)
+  }
+  function fechaModal(prop) {
+    console.log(prop)
+    setAbrirCarrinho(prop)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header onChartClick={abreModal}></Header>
+      {abrirCarrinho && <Modal onCloseClick={fechaModal}></Modal>}
+      <Main></Main>
+      
+    </>
+    
   );
 }
 
