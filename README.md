@@ -1,3 +1,7 @@
+# Esse repositório é respectivo a um trabalho pratico de React, desenvolvido durante a faculdade.
+# O respectivo backend, possui o mesmo nome que esse projeto + a terminação "backend".
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
