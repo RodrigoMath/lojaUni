@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import vela1 from "../imagens/candly1.png"
-import vela2 from "../imagens/candly2.png"
-import vela3 from "../imagens/candly3.png"
+import vela1 from "../imagens/candly1.jpg"
+import vela2 from "../imagens/candly2.jpg"
+import vela3 from "../imagens/candly3.jpg"
 
 const images = [
   vela1,
@@ -53,13 +53,25 @@ const CloseButton = styled.button`
 const ProdutosDoCarrinho = styled.div`
   display: flex;
   flex-direction: row;
-  width: 50%;
+  width: 100%;
   height: 50%;
+  gap: 10px;
 `
 
 const ImagemProduto= styled.img`
-  width: 50%;
-  height: 50%;
+  width: 100%;
+  height: 70%;
+  border-radius: 10px;
+`
+const Titulo = styled.div`
+    font-family: 'Brush Script MT', cursive; 
+    font-size: 24px;
+    color: #333;
+    text-shadow: 0 0 0.1px black; 
+    display: flex; 
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
 `
 
 export function Modal({ onCloseClick=null }) {
@@ -84,7 +96,7 @@ export function Modal({ onCloseClick=null }) {
     <ModalContainer>
       <ModalContent>
         <CloseButton onClick={onClose}>×</CloseButton>
-        <h2>Compra Finalizada!</h2>
+        <Titulo>Produtos no carrinho:</Titulo>
         <ProdutosDoCarrinho>  
           {images.map((image, index) => (
              <div key={index}>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import {motion} from 'framer-motion'
 import styled from "styled-components";
-import vela1 from "../imagens/candly1.png"
-import vela2 from "../imagens/candly2.png"
-import vela3 from "../imagens/candly3.png"
-import vela4 from "../imagens/candly4.png"
-import vela5 from "../imagens/candly5.png"
+import vela1 from "../imagens/candly1.jpg"
+import vela2 from "../imagens/candly2.jpg"
+import vela3 from "../imagens/candly3.jpg"
+import vela4 from "../imagens/candly7.jpg"
+import vela5 from "../imagens/candly5.jpg"
 
 
 const images = [
@@ -21,8 +21,8 @@ overflow: hidden;
 width: 100%;
 max-width: 900px;
 margin: 0 auto;
-min-height: 100vh;
-max-height: 110vh;
+min-height: 30vh;
+max-height: 60vh;
 display: flex;
 
 justify-content: center;

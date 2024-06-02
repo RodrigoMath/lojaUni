@@ -1,7 +1,6 @@
 import React from 'react'; 
 import styled from 'styled-components';
-import carrinho from '../imagens/carrinho-de-compras.png';
-import velas from '../imagens/LogoVelas.jpg'
+import carrinho from '../imagens/sacolas-de-compras.png';
 
 const Head = styled.header`
     background-color: beige; /* Cor de fundo */
@@ -31,8 +30,10 @@ const StyledText = styled.span`
     color: black;
 `;
 const StyledOpenPhrase = styled.div`
-font-size: 14px; 
-color: black;
+    font-family: 'Brush Script MT', cursive; 
+    font-size: 24px;
+    color: #333;
+    text-shadow: 0 0 1px black; 
 `
 
 export function Header({ onChartClick = null }) {
@@ -44,8 +45,8 @@ export function Header({ onChartClick = null }) {
 
     return (
         <Head>
+            <StyledCenterText></StyledCenterText>
             <StyledOpenPhrase>Os melhores Produtos do mercado de aromas</StyledOpenPhrase>
-            <StyledCenterText src={carrinho}></StyledCenterText>
             <DivFlexColumn>
                 <StyledImg alt='carrinho de compras' src={carrinho} onClick={tornaTrue}></StyledImg>
                 <StyledText>Veja suas compras</StyledText>
