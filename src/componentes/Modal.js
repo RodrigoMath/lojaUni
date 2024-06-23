@@ -3,6 +3,7 @@ import styled from "styled-components";
 import vela1 from "../imagens/candly1.jpg"
 import vela2 from "../imagens/candly2.jpg"
 import vela3 from "../imagens/candly3.jpg"
+import axios from 'axios';
 
 const images = [
   vela1,
@@ -73,40 +74,135 @@ const Titulo = styled.div`
     justify-content: center; 
     align-items: center; 
 `
+const FinalizaDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`
 
-export function Modal({ onCloseClick=null }) {
+const ButtonCalcularTotal = styled.button`
+  height: 130px;
+  width: 200px;
+  border-radius: 15px;
+  cursor: pointer;
+  background-color: #D0F0C0;
+`
+const QuantidadeDoItem = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  width: 150px;
+  height: 100px;
+  border: 1px solid black;
+  border-radius: 5px;
+`;
+
+const Contador = styled.p`
+  font-size: 24px;
+  margin-right: 10px;
+`;
+
+const Button = styled.input`
+  width: 40px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50; 
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #45a049; 
+  }
+`;
+
+
+export function Modal({ onCloseClick=null, cartItems }) {
     function onClose(){
         if(onCloseClick){
             onCloseClick(false)
         }
     }
+    const [carrinhoDados, setCarrinhoDados] = useState([null]);
 
    // Estado para o contador
    const [counts, setCounts] = useState(Array(images.length).fill(0));
+   const [countsPost, setCountsPost] = useState(Array(images.length).fill(0));
+
+
+     function handleBuyPost(){
+      axios.post('http://localhost:8080/carrinho', countsPost)
+      .then((response) => {
+        if (response.status >= 200 && response.status < 300) {
+          setTimeout(() => {
+            axios.get('http://localhost:8080/carrinho/' + response.data.id) 
+              .then(response => {
+                console.log("Dados do carrinho:", response.data);
+                setCarrinhoDados(response.data);
+              })
+              .catch(error => {
+                console.error("Erro ao buscar dados do carrinho:", error);
+              });
+          }, 1000); 
+        } else {
+          console.error("Erro na compra:", response.data); 
+        }
+      })
+      .catch((error) => {
+        console.error("Erro ao realizar a compra:", error); 
+      });
+    }
 
    // Função para aumentar o contador
-   const handleIncrement = (index) => {
+   const handleIncrement = (index, item) => {
+    setCountsPost(prevCountss => {
+      const newCountss = [...prevCountss];
+      newCountss[item.index] = newCountss[item.index] + 1; 
+      return newCountss;
+    });
      setCounts(prevCounts => {
        const newCounts = [...prevCounts];
        newCounts[index] = newCounts[index] + 1;
        return newCounts;
      });
    };
+
+   const handleDecrement = (index, item) => {
+    setCountsPost(prevCountss => {
+      const newCountss = [...prevCountss];
+      newCountss[item.index] = newCountss[item.index] - 1; 
+      return newCountss;
+    });
+     setCounts(prevCounts => {
+       const newCounts = [...prevCounts];
+       newCounts[index] = newCounts[index] - 1;
+       return newCounts;
+     });
+   };
+
   return (
     <ModalContainer>
       <ModalContent>
-        <CloseButton onClick={onClose}>×</CloseButton>
+        <CloseButton onClick={onClose}>X</CloseButton>
         <Titulo>Produtos no carrinho:</Titulo>
         <ProdutosDoCarrinho>  
-          {images.map((image, index) => (
+          {cartItems.map((item, index) => (
              <div key={index}>
-             <ImagemProduto src={image} />
-             <p>Contador: {counts[index]}</p>
-             <button onClick={() => handleIncrement(index)}>Aumentar</button>
+             <ImagemProduto src={images[item.index]} />
+             <QuantidadeDoItem>
+                <Contador>{counts[index]}</Contador>
+                <Button type="button" value="+" onClick={() => handleIncrement(index, item)} />
+                <Button type="button" value="-" onClick={() => handleDecrement(index, item)} />
+              </QuantidadeDoItem>
            </div>
             ))}     
         </ProdutosDoCarrinho>
-        <p>Obrigado por sua compra.</p>
+        <FinalizaDiv>
+        <ButtonCalcularTotal onClick={handleBuyPost}>Clique para calcular o valor total da compra!</ButtonCalcularTotal>
+        <h2>Total a pagar: R$ {carrinhoDados.total}.</h2>
+        </FinalizaDiv>
       </ModalContent>
     </ModalContainer>
   );

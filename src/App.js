@@ -11,16 +11,19 @@ function App() {
     setAbrirCarrinho(true)
   }
   function fechaModal(prop) {
-    console.log(prop)
     setAbrirCarrinho(prop)
   }
 
+  
+
+  const [cartItems, setCartItems] = useState([]);
+
   return (
     <>
-      <Header onChartClick={abreModal}></Header>
-      {abrirCarrinho && <Modal onCloseClick={fechaModal}></Modal>}
-      <Main></Main>
+      <Header onChartClick={abreModal} cartItems={cartItems}></Header>
+      {abrirCarrinho && <Modal onCloseClick={fechaModal} cartItems={cartItems}></Modal>}
       
+      <Main cartItems={cartItems} onItemChartAdd={setCartItems} />
     </>
     
   );
